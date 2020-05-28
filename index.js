@@ -29,8 +29,8 @@ app.use(methodOverride('_method'))
 
 app.use('/', require('./routes/home'))
 
-const port = 3300
+const port = 80
 
 http.listen(port, () => {
-    console.log('http://localhost:' + port);
+    console.log('3.14.144.124' + port);
   }); // 서버연결
