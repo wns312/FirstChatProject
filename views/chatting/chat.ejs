@@ -8,26 +8,25 @@
         * { margin: 0; padding: 0; box-sizing: border-box; } 
         /* http://www.nextree.co.kr/p8468/ */
         
-        body { font: 16px Helvetica, Arial; color: rgb(255, 255, 255); font-weight:550;  background: url(bg1.jpg) no-repeat 20% 20%; background-attachment:fixed}
+        body { font: 16px Helvetica, Arial; color: rgb(255, 255, 255); font-weight:550;  background: url(bg1.jpg) no-repeat 20% 20%; background-attachment:fixed; margin-bottom: 45px;}
         form { background: rgb(255, 255, 255); padding: 3px; position: fixed; bottom: 0; width: 100%; }
         form input { border: 0; padding: 10px; width: 90%; }
         form button { font-size: 15px; width: 10%; background: rgb(250, 211, 72); border: none; padding: 15px; font-weight: 550;}
-        #messages { list-style-type: none; margin: 0; padding: 15px; } 
+        #messages { list-style-type: none; margin: 0; padding: 15px; width: 50rem; } 
         /* http://www.nextree.co.kr/p8468/ */
-        #messages li { padding: 5px 10px; }
+        #messages li { padding: 5px 15px; margin: 3px; border-radius: 15px;}
         /* #messages li:nth-child(odd) { background: rgb(231, 233, 213); }  */
         /* https://lalacode.tistory.com/6 참고 */    
     </style>
 </head>
 <body>
-<div>
+
     <ul id="messages"></ul>
     <form action="">
     <input id="m" autocomplete="off" /><button>Send</button> 
     <!--autocomplete는 자동완성기능이고 off는 끈다는 것.-->
     </form>
 
-</div>
 
     <script src="/socket.io/socket.io.js"></script> <!--소켓 임포트-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script><!--J쿼리 임포트-->
@@ -35,7 +34,7 @@
     메뉴나 형식을 메뉴얼화 할 수 있다는 소리 -->
     <script>
     $(function () {
-        let nknm = "<%=nickname%>"+" : "
+        // let nknm = "<%=nickname%>"+" : "
         let myhtml = document.getElementById("myhtml");
         //html제어객체
 
@@ -44,7 +43,7 @@
         // form 태그에 submit이벤트가 발생했을 시 함수실행
             
             e.preventDefault(); // 페이지 리로딩방지
-            socket.emit('chat message', nknm+$('#m').val());
+            socket.emit('chat message', "<%=nickname%>"+" : "+$('#m').val());
             // id가 m인 태그의 value값을 chat message라는 이벤트로 보낸다
 
             $('#m').val(''); 
