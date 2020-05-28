@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" id="myhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>채팅</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; } 
+        /* http://www.nextree.co.kr/p8468/ */
+        
+        body { font: 16px Helvetica, Arial; color: rgb(255, 255, 255); font-weight:550;  background: url(bg1.jpg) no-repeat 20% 20%; background-attachment:fixed}
+        form { background: rgb(255, 255, 255); padding: 3px; position: fixed; bottom: 0; width: 100%; }
+        form input { border: 0; padding: 10px; width: 90%; }
+        form button { font-size: 15px; width: 10%; background: rgb(250, 211, 72); border: none; padding: 15px; font-weight: 550;}
+        #messages { list-style-type: none; margin: 0; padding: 15px; } 
+        /* http://www.nextree.co.kr/p8468/ */
+        #messages li { padding: 5px 10px; }
+        /* #messages li:nth-child(odd) { background: rgb(231, 233, 213); }  */
+        /* https://lalacode.tistory.com/6 참고 */    
+    </style>
+</head>
+<body>
+<div>
+    <ul id="messages"></ul>
+    <form action="">
+    <input id="m" autocomplete="off" /><button>Send</button> 
+    <!--autocomplete는 자동완성기능이고 off는 끈다는 것.-->
+    </form>
+
+</div>
+
+    <script src="/socket.io/socket.io.js"></script> <!--소켓 임포트-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script><!--J쿼리 임포트-->
+    <!-- 참고로 script src를 사용해서 다른 파일의 내용 자체를 가져올 수도 있다. 
+    메뉴나 형식을 메뉴얼화 할 수 있다는 소리 -->
+    <script>
+    $(function () {
+        let nknm = "<%=nickname%>"+" : "
+        let myhtml = document.getElementById("myhtml");
+        //html제어객체
+
+        let socket = io(); // client 소켓객체
+        $('form').submit(function(e) { 
+        // form 태그에 submit이벤트가 발생했을 시 함수실행
+            
+            e.preventDefault(); // 페이지 리로딩방지
+            socket.emit('chat message', nknm+$('#m').val());
+            // id가 m인 태그의 value값을 chat message라는 이벤트로 보낸다
+
+            $('#m').val(''); 
+            // id가 m인 태그(input)의 내용을 지운다는거같다.
+            // (val은 value인듯)
+            
+            return false; // 모르겠음
+        });
+        socket.on('chat message', function(msg){ // chat message 이벤트 수신시 함수실행
+
+            $('#messages').append($('<li>').text(msg)); 
+            //id가 messages인 태그(ul)에 링크(바인드?)걸어주고, append함수로 내용추가
+            myhtml.scrollTop = myhtml.scrollHeight;
+            //자동스크롤
+        });
+    });
+    </script>
+</body>
+</html>
